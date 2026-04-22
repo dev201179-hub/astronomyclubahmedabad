@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astronomy Club Ahmedabad</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #020617, #000);
+  color: white;
+  scroll-behavior: smooth;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  position: sticky;
+  top: 0;
+  background: rgba(2,6,23,0.8);
+  backdrop-filter: blur(10px);
+}
+
+nav a {
+  color: #38bdf8;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.hero {
+  height: 100vh;
+  background: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa') center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 60px;
+}
+
+.btn {
+  padding: 12px 24px;
+  background: #38bdf8;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 20px #38bdf8;
+}
+
+.section {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  margin: 15px;
+  border-radius: 12px;
+  display: inline-block;
+  width: 250px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #38bdf8;
+}
+
+iframe {
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(56,189,248,0.4);
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+  background: #020617;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>🌌 Astronomy Club Ahmedabad</h2>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#sky">Sky</a>
+    <a href="#events">Events</a>
+    <a href="#contact">Join</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <h1>Explore the Universe</h1>
+    <p>Ahmedabad Astronomy Community</p>
+    <button class="btn" onclick="scrollToJoin()">Join Now</button>
+  </div>
+</section>
+
+<section class="section">
+  <h2>🌙 Tonight’s Sky</h2>
+  <p>Moon: <span id="moon">Loading...</span></p>
+  <p>Sunrise: <span id="sunrise"></span></p>
+  <p>Sunset: <span id="sunset"></span></p>
+</section>
+
+<section id="sky" class="section">
+  <h2>🌌 Live Sky Map</h2>
+  <iframe src="https://stellarium-web.org/skysource?lat=23.0225&lng=72.5714"
+    width="90%" height="500"></iframe>
+</section>
+
+<section id="events" class="section">
+  <h2>🌠 Events</h2>
+  <div class="card">Stargazing Night</div>
+  <div class="card">Telescope Workshop</div>
+  <div class="card">Space Talks</div>
+</section>
+
+<section id="contact" class="section">
+  <h2>📩 Join Us</h2>
+  <p>Email: astroclub@gmail.com</p>
+  <button class="btn">Register</button>
+</section>
+
+<footer>
+  <p>© 2026 Astronomy Club Ahmedabad</p>
+</footer>
+[12:27 pm, 22/4/2026] Lawrence: https://dev201179-hub.github.io/astronomyclubahmedabad/
+[12:49 pm, 22/4/2026] Lawrence: <script>
+
+window.onload = function () {
+
+  document.getElementById("moon").innerText = "Loading...";
+
+  document.getElementById("sunrise").innerText = "Loading...";
+
+  document.getElementById("sunset").innerText = "Loading...";
+
+  const lat = 23.0225;
+
+  const lon = 72.5714;
+
+  fetch("https://api.sunrise-sunset.org/json?lat=" + lat + "&lng=" + lon + "&formatted=0")
+
+    .then(response => response.json())
+
+    .then(data => {
+
+      document.getElementById("sunrise").innerText =
+
+        new Date(data.results.sunrise).toLocaleTimeString();
+
+      document.getElementById("sunset").innerText =
+
+        new Date(data.results.sunset).toLocaleTimeString();
+
+    })
+
+    .catch(error => {
+
+      document.getElementById("sunrise").innerText = "Error";
+
+      document.getElementById("sunset").innerText = "Error";
+
+      console.log(error);
+
+    });
+
+  // Moon phase
+
+  const now = new Date();
+  const newMoon = new Date(2024, 0, 11, 11, 57);
+  const cycle = 29.53058867;
+
+  const days = ((now - newMoon) / (1000*60*60*24)) % cycle;
+
+  let phase = "";
+  if (days < 1) phase = "New 🌑";
+  else if (days < 7) phase = "Waxing 🌒";
+  else if (days < 15) phase = "Full 🌕";
+  else if (days < 22) phase = "Waning 🌖";
+  else phase = "Crescent 🌘";
+
+  document.getElementById("moon").innerText =
+    phase + " (" + days.toFixed(2) + " days)";
+};
+</script>
+</body>
+</html>

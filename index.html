@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astronomy Club Ahmedabad</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #020617, #000);
+  color: white;
+  scroll-behavior: smooth;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  position: sticky;
+  top: 0;
+  background: rgba(2,6,23,0.8);
+  backdrop-filter: blur(10px);
+}
+
+nav a {
+  color: #38bdf8;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.hero {
+  height: 100vh;
+  background: url('https://www.astronomy.com/wp-content/uploads/2026/04/ASY-GR1125_01.jpg') center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.hero div {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 60px;
+}
+
+.btn {
+  padding: 12px 24px;
+  background: #38bdf8;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.section {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+iframe {
+  width: 95%;
+  max-width: 1000px;
+  border-radius: 12px;
+}
+
+/* ===== IMAGE SLIDER ===== */
+.slider {
+  width: 90%;
+  max-width: 900px;
+  overflow: hidden;
+  margin: auto;
+  border-radius: 12px;
+}
+
+.slides {
+  display: flex;
+  width: 400%;
+  animation: slide 16s infinite;
+}
+
+.slides img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.slides:hover {
+  animation-play-state: paused;
+}
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-100%); }
+  50% { transform: translateX(-200%); }
+  75% { transform: translateX(-300%); }
+  100% { transform: translateX(0); }
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>🌌 Astronomy Club Ahmedabad</h2>
+  <nav>
+    <a href="#sky">Sky</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Join</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <h1>Explore the Universe</h1>
+    <button class="btn" onclick="scrollToJoin()">Join Now</button>
+  </div>
+</section>
+
+<section class="section">
+  <h2>🌙 Tonight’s Sky</h2>
+  <p>Moon: <span id="moon">Loading...</span></p>
+  <p>Sunrise: <span id="sunrise">Loading...</span></p>
+  <p>Sunset: <span id="sunset">Loading...</span></p>
+</section>
+
+<section id="sky" class="section">
+  <h2>🌌 Live Sky</h2>
+  <iframe src="https://stellarium-web.org/?lat=23.0225&lng=72.5714&tz=Asia/Kolkata"></iframe>
+</section>
+
+<!-- ===== THIS IS YOUR IMAGE SLIDER SECTION ===== -->
+<section id="gallery" class="section">
+  <h2>📸 Space Gallery</h2>
+
+  <div class="slider">
+    <div class="slides">
+      <img src="images/galaxy.jpg">
+      <img src="images/moon.PNG">
+      <img src="images/saturn.jpg">
+      <img src="images/nebula.jpg">
+    </div>
+  </div>
+
+</section>
+
+<section id="contact" class="section">
+  <h2>Join Us</h2>
+</section>
+
+<footer>
+  <p>© 2026 Astronomy Club Ahmedabad</p>
+</footer>
+
+<script>
+function scrollToJoin() {
+  document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+}
+
+window.onload = function () {
+  fetch("https://api.sunrise-sunset.org/json?lat=23.0225&lng=72.5714&formatted=0")
+    .then(res => res.json())
+    .then(data => {
+      sunrise.innerText = new Date(data.results.sunrise).toLocaleTimeString("en-IN", {timeZone:"Asia/Kolkata"});
+      sunset.innerText = new Date(data.results.sunset).toLocaleTimeString("en-IN", {timeZone:"Asia/Kolkata"});
+    });
+
+  document.getElementById("moon").innerText = "Visible 🌙";
+};
+</script>
+
+</body>
+</html>
